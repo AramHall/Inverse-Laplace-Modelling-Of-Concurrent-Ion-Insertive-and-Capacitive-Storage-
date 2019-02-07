@@ -17,11 +17,19 @@ Currents = zeros(length(time),bLength);
 t = time;
 
 % using the parameters Rohm/Rct/Rd/Cpt/Tau, finds the requested roots
-bRoots  = PITT_root_finder_cmplx_redo( Rohm, Rct,Rd, Cpt, Tau, bLength );
+% bRoots  = PITT_root_finder_cmplx_redo( Rohm, Rct,Rd, Cpt, Tau, bLength );
 
 %%%%    in some cases the quick root rinder above might miss a root. In this
 %%%%    case the more rigerous root finder can be used instead:
-%%%%    bRoots  = PITT_root_finder_cmplx_redo_rigourous( Rohm, Rct,Rd, Cpt, Tau, bLength );
+%bRoots  = PITT_root_finder_cmplx_redo_rigourous( Rohm, Rct,Rd, Cpt, Tau, bLength );
+
+
+%%%%    Third time's a charm
+bRoots  = PITT_root_finder_cmplx_redo_asymptotesGuess( Rohm, Rct,Rd, Cpt, Tau, bLength );
+   
+
+   
+   
 
 % evaluates the current from every sum term (the length of which is set by the number of roots)
 for k = 1:bLength
@@ -35,6 +43,9 @@ for k = 1:bLength
         (Rd.*(Rct+Rohm+Rd)+(Rct+Rohm).^2.*x.^2).*Tau.^2) ;
 
 end
+
+figure
+mesh(bRoots,time,Currents)
 
 % sums the currents at every time step to form the modelled current
 % transient
