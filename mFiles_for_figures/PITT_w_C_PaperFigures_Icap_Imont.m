@@ -24,7 +24,7 @@ RdVals = [0.01,0.1,1,10,100];
 %Cap set @ Qd*1000
 Tau = 1;
 Time = logspace(-5,10,10000);
-bLength = 40;
+bLength = 20;
 Estep = 0.025;
 
 figure 
@@ -36,7 +36,7 @@ for j = 1:length(RdVals)
     insCurrent = PITT_montella_redo( Rohm, Rct,RdVals(j), Tau, bLength, Estep, Time  );
     Qd(j) = trapz(Time,insCurrent);
     Cap(j) =  Qd(j)/1000/(Estep);
-    sumCurrent = PITT_w_C_redo( Rohm, Rct ,RdVals(j), Cap(j) , Tau, bLength, Estep, Time);
+    sumCurrent = PITT_w_C_redo( Rohm, Rct ,RdVals(j), Cap(j) , Tau, Estep, Time);
     
     j 
     plotCurrent = sumCurrent./insCurrent;
@@ -84,8 +84,8 @@ for j = 1:length(RdVals)
     
     insCurrent = PITT_montella_redo( Rohm, RctVals(j),RdVals(j), Tau, bLength, Estep, Time  );
     Qd(j) = trapz(Time,insCurrent);
-    Cap(j) =  Qd(j)/(100000*Estep);
-    sumCurrent = PITT_w_C_redo( Rohm, RctVals(j) ,RdVals(j), Cap(j) , Tau, bLength, Estep, Time);
+    Cap(j) =  Qd(j)/1000/(Estep);
+    sumCurrent = PITT_w_C_redo( Rohm, RctVals(j) ,RdVals(j), Cap(j) , Tau, Estep, Time);
     j 
     plotCurrent = sumCurrent./insCurrent;
     plotCurrent(isnan(plotCurrent)) = [];
@@ -144,7 +144,7 @@ for j = 1:length(RdVals)
     
     Qd(j) = trapz(Time,PITT_montella_redo( Rohm, Rct,RdVals(j), Tau, bLength, Estep, Time  ));
     Cap(j) =  Qd(j)*1000/(Estep);
-    sumCurrent = PITT_w_C_redo( Rohm, Rct ,RdVals(j), Cap(j) , Tau, bLength, Estep, Time);
+    sumCurrent = PITT_w_C_redo( Rohm, Rct ,RdVals(j), Cap(j) , Tau, Estep, Time);
     capCurrent = Estep/Rohm .* exp(-Time./(Cap(j).*Rohm));
     j 
     plot( Time./Tau, sumCurrent./capCurrent', 'color', col(j,:))
@@ -198,7 +198,7 @@ for j = 1:length(RdVals)
     
     Qd(j) = trapz(Time,PITT_montella_redo( Rohm, RctVals(j),RdVals(j), Tau, bLength, Estep, Time  ));
     Cap(j) =  Qd(j)*1000/(Estep);
-    sumCurrent = PITT_w_C_redo( Rohm, RctVals(j) ,RdVals(j), Cap(j) , Tau, bLength, Estep, Time);
+    sumCurrent = PITT_w_C_redo( Rohm, RctVals(j) ,RdVals(j), Cap(j) , Tau, Estep, Time);
     capCurrent = Estep/Rohm .* exp(-Time./(Cap(j).*Rohm));
     j 
     plot( Time./Tau, sumCurrent./capCurrent', 'color', col(j,:))

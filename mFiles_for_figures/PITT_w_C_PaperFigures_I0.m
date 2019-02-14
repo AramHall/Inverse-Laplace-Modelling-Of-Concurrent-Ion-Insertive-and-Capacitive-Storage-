@@ -68,7 +68,7 @@ for j = 1:length(RdVals)
     
     Qd(j) = trapz(Time,PITT_montella_redo( Rohm, Rct,RdVals(j), Tau, bLength, Estep, Time  ));
     Cap(j) =  Qd(j)/(1000*Estep);
-    sumCurrent = PITT_w_C_redo( Rohm, Rct ,RdVals(j), Cap(j) , Tau, bLength, Estep, Time);
+    sumCurrent = PITT_w_C_redo( Rohm, Rct ,RdVals(j), Cap(j) , Tau, Estep, Time);
     j 
     plot( Time./Tau, (sumCurrent./(Estep/Rohm)),'color', col(j,:))
     legEnt{j} = ['\Lambda = ' num2str(RdVals(j))];
@@ -114,7 +114,7 @@ for j = 1:length(RdVals)
     Qd(j) = trapz(Time,PITT_montella_redo( Rohm, Rct,RdVals(j), Tau, bLength, Estep, Time  ));
     Qd2(j) = sum(PITT_montella_redo( Rohm, Rct,RdVals(j), Tau, bLength, Estep, Time  (1:end-1)  ).*diff(Time'));
     Cap(j) =  Qd(j)/(Estep);
-    sumCurrent = PITT_w_C_redo( Rohm, Rct ,RdVals(j), Cap(j) , Tau, bLength, Estep, Time);
+    sumCurrent = PITT_w_C_redo( Rohm, Rct ,RdVals(j), Cap(j) , Tau, Estep, Time);
     j 
     plot( Time./Tau, sumCurrent./(Estep/Rohm), 'color', col(j,:))
     legEnt{j} = ['? = ' num2str(RdVals(j))];
@@ -176,7 +176,7 @@ for j = 1:length(RdVals)
     Qd(j) = trapz(Time,PITT_montella_redo( Rohm, Rct,RdVals(j), Tau, bLength, Estep, Time  ));
     Qd2(j) = sum(PITT_montella_redo( Rohm, Rct,RdVals(j), Tau, bLength, Estep, Time  (1:end-1)  ).*diff(Time'));
     Cap(j) =  Qd(j)*1000/(Estep);
-    sumCurrent = PITT_w_C_redo( Rohm, Rct ,RdVals(j), Cap(j) , Tau, bLength, Estep, Time);
+    sumCurrent = PITT_w_C_redo( Rohm, Rct ,RdVals(j), Cap(j) , Tau, Estep, Time);
     j 
     plot( Time./Tau, sumCurrent./(Estep/Rohm), 'color', col(j,:))
     legEnt{j} = ['? = ' num2str(RdVals(j))];
@@ -278,7 +278,7 @@ for j = 1:length(RdVals)
     
     Qd(j) = trapz(Time,PITT_montella_redo( Rohm, RctVals(j),RdVals(j), Tau, bLength, Estep, Time  ));
     Cap(j) =  Qd(j)/(1000*Estep);
-    sumCurrent = PITT_w_C_redo( Rohm, RctVals(j) ,RdVals(j), Cap(j) , Tau, bLength, Estep, Time);
+    sumCurrent = PITT_w_C_redo( Rohm, RctVals(j) ,RdVals(j), Cap(j) , Tau, Estep, Time);
     j 
     plot( Time./Tau, sumCurrent./(Estep/Rohm), 'color', col(j,:))
     legEnt{j} = ['R_c_t/R_\Omega = ' num2str(RctVals(j))];
@@ -323,7 +323,7 @@ for j = 1:length(RdVals)
     
     Qd(j) = trapz(Time,PITT_montella_redo( Rohm, RctVals(j),RdVals(j), Tau, bLength, Estep, Time  ));
     Cap(j) =  Qd(j)/(Estep);
-    sumCurrent = PITT_w_C_redo( Rohm, RctVals(j) ,RdVals(j), Cap(j) , Tau, bLength, Estep, Time);
+    sumCurrent = PITT_w_C_redo( Rohm, RctVals(j) ,RdVals(j), Cap(j) , Tau, Estep, Time);
     j 
     plot( Time./Tau, sumCurrent./(Estep/Rohm), 'color', col(j,:))
     legEnt{j} = ['R_c_t/R_\Omega = ' num2str(RctVals(j))];
@@ -370,7 +370,7 @@ for j = 1:length(RdVals)
     
     Qd(j) = trapz(Time,PITT_montella_redo( Rohm, RctVals(j),RdVals(j), Tau, bLength, Estep, Time  ));
     Cap(j) =  Qd(j)*1000/(Estep);
-    sumCurrent = PITT_w_C_redo( Rohm, RctVals(j) ,RdVals(j), Cap(j) , Tau, bLength, Estep, Time);
+    sumCurrent = PITT_w_C_redo( Rohm, RctVals(j) ,RdVals(j), Cap(j) , Tau, Estep, Time);
     j 
     plot( Time./Tau, sumCurrent./(Estep/Rohm), 'color', col(j,:))
     legEnt{j} = ['R_c_t/R_\Omega = ' num2str(RctVals(j))];
