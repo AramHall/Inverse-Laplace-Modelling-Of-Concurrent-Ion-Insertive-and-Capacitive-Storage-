@@ -5,6 +5,8 @@ function [ bRoots ] = PITT_root_finder_cmplx_redo_asymptotesGuess( Rohm, Rct,Rd,
 % veritcal asymptote. The function is evaluated for a range of values,
 % and roots are found via indexing a change of sign.
 
+%%%%% NB: I break if Rd > ~ 1e15
+
 % transcendental equation
 transcendentalEq=@(b,Rohm, Rct,Rd, Capacitance, Tau) cot(b) - b.*(Rct + Rohm - Capacitance .* Rct .* Rohm .* ( b.^2./Tau))./(Rd.*(1-Capacitance .* Rohm .*( b.^2 ./ Tau)));
 
@@ -31,15 +33,20 @@ babySteps = min(1/Rd/100 , sqrt(Tau/(Rohm*Capacitance))/100000);
 babySteps = max(1e-6, babySteps);
 
 step = [ step, [ (painfulAsymptote-babySteps*10000) : babySteps : (painfulAsymptote+babySteps*1000) ] , [ (mostSignifRoot-babySteps*10000) : babySteps : (mostSignifRoot+babySteps*1000) ] ];
-if Rd > 1e8
-    step = [step,  [ (painfulAsymptote-(1/Rd)*10) : 1/Rd/100 : (painfulAsymptote+(1/Rd)*10) ] ];
+
+if Rd > 1e8 
+    step = [step,  [ (painfulAsymptote-(1/Rd)*10) : 1/Rd/10000 : (painfulAsymptote+(1/Rd)*10) ] ];
+elseif Capacitance < 1e-4
+    step = [step,  [ (painfulAsymptote-Capacitance) : Capacitance/100000 : (painfulAsymptote+Capacitance) ] ];
 end
+
 step = sort(step);
 step = step(step>0);
 
 
 % Evaluates the transendental equation over the desired range
 bValTemp = transcendentalEq(step,Rohm, Rct,Rd, Capacitance, Tau);
+
 
 % finds changes of sign of the evaluated transendental equation
 bRootsFirst = step(find(bValTemp(1:end-1)>0 & bValTemp(2:end) <0));
@@ -53,6 +60,18 @@ for jjj = 1:length(bRootsFirst)
     
     
 end
+
+if Rd > 1e8
+    asymptoteCheck = abs(bRootsFirst./ bRootsSecond-1);
+    asymptoteRoot = find(asymptoteCheck > 1e-2);
+    bRootsSecond(asymptoteRoot) = bRootsFirst(asymptoteRoot);
+elseif Capacitance < 1e-4
+    asymptoteCheck = abs(bRootsFirst./ bRootsSecond-1);
+    asymptoteRoot = find(asymptoteCheck > 1e-2);
+    bRootsSecond(asymptoteRoot) = bRootsFirst(asymptoteRoot);
+end
+    
+
 
 bRoots = bRootsSecond;
 
