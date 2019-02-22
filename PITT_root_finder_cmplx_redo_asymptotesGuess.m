@@ -31,6 +31,9 @@ babySteps = min(1/Rd/100 , sqrt(Tau/(Rohm*Capacitance))/100000);
 babySteps = max(1e-6, babySteps);
 
 step = [ step, [ (painfulAsymptote-babySteps*10000) : babySteps : (painfulAsymptote+babySteps*1000) ] , [ (mostSignifRoot-babySteps*10000) : babySteps : (mostSignifRoot+babySteps*1000) ] ];
+if Rd > 1e8
+    step = [step,  [ (painfulAsymptote-(1/Rd)*10) : 1/Rd/100 : (painfulAsymptote+(1/Rd)*10) ] ];
+end
 step = sort(step);
 step = step(step>0);
 
